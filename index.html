@@ -61,7 +61,6 @@
             opacity: 0;
         }
 
-        /* ❤️ Floating hearts */
         .heart {
             position: fixed;
             bottom: -10px;
@@ -80,7 +79,7 @@
 </head>
 <body>
 
-    <!-- 🎶 Background music (plays only on Screen 3) -->
+    <!-- Background Music -->
     <audio id="bg-music">
         <source src="song.mp3" type="audio/mpeg">
     </audio>
@@ -107,15 +106,20 @@
 
     <!-- Screen 3 -->
     <div id="screen3" class="screen">
-        <p class="lyrics">Tu haseen, tera naam haseen ae</p>
-        <p class="lyrics">Tere ishq da jaam haseen ae</p>
-        <p class="lyrics">Eh be-matlabi zindagi</p>
-        <p class="lyrics">Jado di tere naam haseen ae</p>
+        
+        <!-- NEW LYRICS (song sequence) -->
+        <p class="lyrics">Hun Gane Tere Mere Utte Likhan Lagge Ne</p>
+        <p class="lyrics">Tu Haseen Tera Naam Haseen Ae</p>
+        <p class="lyrics">Tere Ishq Da Jaam Haseen Ae</p>
+        <p class="lyrics">Eh Be-Matlabi Zindagi</p>
+        <p class="lyrics">Jadon Di Tere Naam Haseen Ae</p>
 
-        <img src="https://i.pinimg.com/originals/24/9d/23/249d2392d4f895a0a38f45a0e071c841.gif"
+        <!-- Updated Panda Image -->
+        <img src="https://i.ibb.co/8L4R5qr6/images-10.jpg"
              alt="panda with rose" class="gif-final">
 
         <h3 style="font-size:26px; color:#ff0066;">For My Haseen Girl ❤️</h3>
+        <h3 style="font-size:24px; color:#ff3385;">Riri ❣️</h3>
     </div>
 
 
@@ -125,26 +129,25 @@
         const screen3 = document.getElementById("screen3");
         const music = document.getElementById("bg-music");
 
-        // Switch to Screen 2
+        // Go to screen 2
         document.getElementById("open-it-btn").addEventListener("click", () => {
             screen1.classList.remove("active");
             screen2.classList.add("active");
         });
 
-        // Switch to Screen 3 + start music + start lyrics
+        // Go to screen 3 + music + lyrics
         document.getElementById("show-me-btn").addEventListener("click", () => {
             screen2.classList.remove("active");
             screen3.classList.add("active");
 
-            startTypewriter();
+            startLyricsSequence();
 
-            // 🎵 MUSIC FIX — plays reliably after user click
             music.volume = 1;
             music.currentTime = 0;
-            music.play().catch(err => console.log("Autoplay blocked:", err));
+            music.play().catch(err => console.log("Music blocked:", err));
         });
 
-        // ❤️ Floating hearts
+        // Hearts
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
@@ -156,21 +159,26 @@
         }
         setInterval(createHeart, 500);
 
-        // ✨ Typewriter effect for lyrics
-        function startTypewriter() {
+        // LYRICS TIMING SEQUENCE (ONE-BY-ONE)
+        function startLyricsSequence() {
             const lines = document.querySelectorAll(".lyrics");
             let index = 0;
 
-            function showLine() {
-                if (index < lines.length) {
-                    lines[index].style.opacity = 1;
-                    lines[index].style.transition = "1s";
-                    index++;
-                    setTimeout(showLine, 900);
-                }
-            }
+            // Timing per line (milliseconds)
+            const delays = [
+                0,        // line 1 immediately
+                3000,     // line 2 after 3 sec
+                6000,     // line 3 after 6 sec
+                9000,     // line 4 after 9 sec
+                12000     // line 5 after 12 sec
+            ];
 
-            showLine();
+            lines.forEach((line, i) => {
+                setTimeout(() => {
+                    line.style.opacity = 1;
+                    line.style.transition = "1s";
+                }, delays[i]);
+            });
         }
     </script>
 
